@@ -373,7 +373,7 @@ void felix_driver_run(FelixToGlimmer * ftg_ptr, double& cur_time_yr, double time
 
     Teuchos::RCP<const Tpetra_Map> ownedMapT = app->getDiscretization()->getMapT(); //owned map
     Teuchos::RCP<const Tpetra_Map> overlapMapT = app->getDiscretization()->getOverlapMapT(); //overlap map
-    Teuchos::RCP<Tpetra_Import> importT = Teuchos::rcp(new Tpetra_Import(overlapMapT, ownedMapT)); 
+    Teuchos::RCP<Tpetra_Import> importT = Teuchos::rcp(new Tpetra_Import(ownedMapT, overlapMapT)); 
     Teuchos::RCP<Tpetra_Vector> solutionOverlapT = Teuchos::rcp(new Tpetra_Vector(overlapMapT));
     solutionOverlapT->doImport(*app->getDiscretization()->getSolutionFieldT(), *importT, Tpetra::INSERT);
     Teuchos::ArrayRCP<const ST> solutionOverlapT_constView = solutionOverlapT->get1dView(); 
