@@ -288,6 +288,7 @@ AlbPUMI::FMDBDiscretization<Output>::setupMLCoords()
   if (rigidBodyModes->isMueLuUsed()) {
 
     std::cout << "MueLu selected in FMDB!" << std::endl;
+    std::cout << "mesh dim is = : " << mesh_dim << std::endl;
     double *xxyyzz; //make this ST?
     rigidBodyModes->getCoordArraysMueLu(&xxyyzz);
 
@@ -302,7 +303,7 @@ AlbPUMI::FMDBDiscretization<Output>::setupMLCoords()
       GO node_gid = apf::getNumber(globalNumbering, node);
       int node_lid = node_mapT->getLocalElement(node_gid);
       apf::getComponents(f, nodes[i].entity, nodes[i].node, lcoords);
-      for(size_t j = 0; j < mesh_dim; ++i)
+      for(size_t j = 0; j < mesh_dim; ++j)
             xxyyzz[j*numOwnedNodes + node_lid] = lcoords[j];
 
     }
@@ -1253,8 +1254,8 @@ void
 AlbPUMI::FMDBDiscretization<Output>::updateMesh(bool shouldTransferIPData)
 {
   computeOwnedNodesAndUnknowns();
-  setupMLCoords();
   computeOverlapNodesAndUnknowns();
+  setupMLCoords();
   computeGraphs();
   getCoordinates(); //fill the coordinates array
   computeWorksetInfo();
